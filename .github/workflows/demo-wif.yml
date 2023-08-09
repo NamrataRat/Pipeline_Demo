@@ -32,4 +32,5 @@ jobs:
     # List the instances in the project
     - name: List Instances
       run: |-
-        gcloud compute instances list --project $PROJECT_ID
+        gcloud config set project $PROJECT_ID
+        gcloud compute instances list
