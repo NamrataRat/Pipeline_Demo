@@ -34,3 +34,11 @@ jobs:
       run: |-
         gcloud config set project $PROJECT_ID
         gcloud compute instances list
+
+        
+    - name: SSH into VM and Manage Containers
+      run: |
+        INSTANCE_NAME="your-instance-name"
+        ZONE="your-zone"
+        gcloud compute ssh $INSTANCE_NAME --zone=$ZONE --command="docker stop xyz && docker rm xyz"
+        gcloud compute ssh $INSTANCE_NAME --zone=$ZONE --command="docker run -d --name xyz -p 80:80 my-docker-image"
