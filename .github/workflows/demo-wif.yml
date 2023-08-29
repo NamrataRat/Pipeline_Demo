@@ -1,44 +1,14 @@
-name: Connect to GCP and List Instances
+name: To print hello world
 
 on:
   push:
     branches: [ "main" ]
 
-env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
 
 jobs:
-  setup-prepare-list:
-    name: Setup, Prepare,
+  my-job:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    # Configure Workload Identity Federation and generate an access token.
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        token_format: 'access_token'
-        workload_identity_provider:  ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_ID }}
-        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-
-    # List the instances in the project
-    - name: List Instances
-      run: |-
-        gcloud config set project $PROJECT_ID
-        gcloud compute instances list
-
-        
-    - name: SSH into VM and Manage Containers
-      run: |
-        INSTANCE_NAME="your-instance-name"
-        ZONE="your-zone"
-        gcloud compute ssh $INSTANCE_NAME --zone=$ZONE --command="docker stop xyz && docker rm xyz"
-        gcloud compute ssh $INSTANCE_NAME --zone=$ZONE --command="docker run -d --name xyz -p 80:80 my-docker-image"
+      - name: my-step
+        run: echo "Hello World!"
